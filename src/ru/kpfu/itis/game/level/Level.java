@@ -1,7 +1,9 @@
 package ru.kpfu.itis.game.level;
 
 import ru.kpfu.itis.game.entities.Entity;
+import ru.kpfu.itis.game.entities.PlayerMP;
 import ru.kpfu.itis.game.gfx.Screen;
+import ru.kpfu.itis.game.level.tiles.Tile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -57,7 +59,7 @@ public class Level {
         }
     }
 
-    @SuppressWarnings("unused")
+
     private void saveLevelToFile() {
         try {
             ImageIO.write(image, "png", new File(Level.class.getResource(this.imagePath).getFile()));
