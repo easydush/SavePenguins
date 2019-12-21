@@ -5,7 +5,7 @@ import ru.kpfu.itis.game.network.GameServer;
 
 public abstract class Message {
     public static enum MessageTypes {
-        INVALID(-1), LOGIN(00), DISCONNECT(01), MOVE(02);
+        INVALID(-1), LOGIN(00), DISCONNECT(01), MOVE(02), TAKE(03), PUT(04);
 
         private int messageId;
 
