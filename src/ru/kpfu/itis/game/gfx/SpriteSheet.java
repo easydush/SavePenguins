@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gfx;
+package ru.kpfu.itis.game.gfx;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

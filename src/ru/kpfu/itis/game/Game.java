@@ -1,6 +1,7 @@
 package ru.kpfu.itis.game;
 
-import ru.kpfu.itis.gfx.SpriteSheet;
+import ru.kpfu.itis.game.gfx.Screen;
+import ru.kpfu.itis.game.gfx.SpriteSheet;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +22,7 @@ public class Game extends Canvas implements Runnable {
 
     private BufferedImage image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
     private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
-
+    private Screen screen;
     private SpriteSheet spriteSheet = new SpriteSheet("res/sprite_sheet.png");
     public Game() {
         setMinimumSize(new Dimension(WIDTH*SCALE,HEIGHT*SCALE));
