@@ -178,10 +178,11 @@ public class Game extends Canvas implements Runnable {
                     pixels[x + y * WIDTH] = colours[colourCode];
             }
         }
-        
+
         Graphics graphics = bs.getDrawGraphics();
         graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
         graphics.dispose();
+        // TODO: draw penguins
         bs.show();
     }
 
