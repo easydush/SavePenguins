@@ -35,9 +35,6 @@ public abstract class Tile {
         return solid;
     }
 
-    public boolean isEmitter() {
-        return emitter;
-    }
 
     public int getLevelColour() {
         return levelColour;

@@ -1,5 +1,6 @@
 package ru.kpfu.itis.game;
 
+import ru.kpfu.itis.game.entities.Penguin;
 import ru.kpfu.itis.game.entities.Player;
 import ru.kpfu.itis.game.entities.PlayerMP;
 import ru.kpfu.itis.game.gfx.Screen;
@@ -14,16 +15,17 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.ArrayList;
 
 public class Game extends Canvas implements Runnable {
 
     private static final long serialVersionUID = 1L;
 
-    public static final int WIDTH = 160;
-    public static final int HEIGHT = WIDTH / 12 * 9;
-    public static final int SCALE = 3;
-    public static final String NAME = "Game";
-    public static final Dimension DIMENSIONS = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
+    private static final int WIDTH = 160;
+    private static final int HEIGHT = WIDTH / 12 * 9;
+    private static final int SCALE = 3;
+    static final String NAME = "Save penguins";
+    static final Dimension DIMENSIONS = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
     public static Game game;
 
     public JFrame frame;
@@ -42,12 +44,14 @@ public class Game extends Canvas implements Runnable {
     public WindowHandler windowHandler;
     public Level level;
     public Player player;
+    public ArrayList<Penguin> penguinList;
 
     public GameClient socketClient;
     public GameServer socketServer;
 
     public boolean debug = true;
     public boolean isApplet = false;
+
 
     public void init() {
         game = this;
@@ -65,7 +69,7 @@ public class Game extends Canvas implements Runnable {
         }
         screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
         input = new InputHandler(this);
-        level = new Level("/levels/water_test_level.png");
+        level = new Level("/levels/water_test_level0.png");
         player = new PlayerMP(level, 100, 100, input, JOptionPane.showInputDialog(this, "Please enter a username"),
                 null, -1);
         level.addEntity(player);
@@ -91,6 +95,7 @@ public class Game extends Canvas implements Runnable {
 
             socketClient = new GameClient(this, "localhost");
             socketClient.start();
+            penguinList = socketServer.getAllPenguins();
         }
     }
 
@@ -142,7 +147,6 @@ public class Game extends Canvas implements Runnable {
 
             if (System.currentTimeMillis() - lastTimer >= 1000) {
                 lastTimer += 1000;
-                debug(DebugLevel.INFO, ticks + " ticks, " + frames + " frames");
                 frames = 0;
                 ticks = 0;
             }
@@ -174,40 +178,11 @@ public class Game extends Canvas implements Runnable {
                     pixels[x + y * WIDTH] = colours[colourCode];
             }
         }
-
-        Graphics g = bs.getDrawGraphics();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-        g.dispose();
+        
+        Graphics graphics = bs.getDrawGraphics();
+        graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        graphics.dispose();
         bs.show();
     }
 
-    public static long fact(int n) {
-        if (n <= 1) {
-            return 1;
-        } else {
-            return n * fact(n - 1);
-        }
-    }
-
-    public void debug(DebugLevel level, String msg) {
-        switch (level) {
-            default:
-            case INFO:
-                if (debug) {
-                    System.out.println("[" + NAME + "] " + msg);
-                }
-                break;
-            case WARNING:
-                System.out.println("[" + NAME + "] [WARNING] " + msg);
-                break;
-            case SEVERE:
-                System.out.println("[" + NAME + "] [SEVERE]" + msg);
-                this.stop();
-                break;
-        }
-    }
-
-    public static enum DebugLevel {
-        INFO, WARNING, SEVERE;
-    }
 }

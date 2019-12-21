@@ -8,6 +8,8 @@ import ru.kpfu.itis.game.gfx.Screen;
 import ru.kpfu.itis.game.level.Level;
 import ru.kpfu.itis.game.network.messages.Message02Move;
 
+import java.util.ArrayList;
+
 public class Player extends Mob {
 
     private InputHandler input;
@@ -17,11 +19,13 @@ public class Player extends Mob {
     private int tickCount = 0;
     private String username;
 
+
     public Player(Level level, int x, int y, InputHandler input, String username) {
         super(level, "Player", x, y, 1);
         this.input = input;
         this.username = username;
     }
+
 
     public void tick() {
         int xa = 0;
