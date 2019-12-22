@@ -8,6 +8,8 @@ import ru.kpfu.itis.game.gfx.Screen;
 import ru.kpfu.itis.game.level.Level;
 import ru.kpfu.itis.game.network.GameServer;
 import ru.kpfu.itis.game.network.messages.Message02Move;
+import ru.kpfu.itis.game.network.messages.Message03Take;
+import ru.kpfu.itis.game.network.messages.Message04Put;
 
 import java.util.ArrayList;
 
@@ -38,6 +40,9 @@ public class Player extends Mob {
             takenPenguinsNum--;
             savedPenguinsNum++;
             takenPenguins.remove(penguin);
+            Message04Put message04Put = new Message04Put(getUsername(),x,y,true);
+            message04Put.writeData(Game.game.socketClient);
+
         }
     }
     public void takePenguin(int x, int y){
@@ -48,6 +53,8 @@ public class Player extends Mob {
                 penguin.beTaken();
                 takenPenguinsNum++;
                 takenPenguins.add(penguin);
+                Message03Take message03Take = new Message03Take(getUsername(),x,y,true);
+                message03Take.writeData(Game.game.socketClient);
             } else savePenguin(x, y, penguin);
         }
     }
