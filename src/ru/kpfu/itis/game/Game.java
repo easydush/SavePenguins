@@ -21,9 +21,9 @@ public class Game extends Canvas implements Runnable {
 
     private static final long serialVersionUID = 1L;
 
-    private static final int WIDTH = 160;
+    private static final int WIDTH = 320;
     private static final int HEIGHT = WIDTH / 12 * 9;
-    private static final int SCALE = 3;
+    private static final int SCALE = 4;
     static final String NAME = "Save penguins";
     static final Dimension DIMENSIONS = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
     public static Game game;
@@ -69,7 +69,7 @@ public class Game extends Canvas implements Runnable {
         }
         screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
         input = new InputHandler(this);
-        level = new Level("/levels/water_test_level0.png");
+        level = new Level("/levels/water_test_level.png");
         player = new PlayerMP(level, 100, 100, input, JOptionPane.showInputDialog(this, "Please enter a username"),
                 null, -1);
         level.addEntity(player);
@@ -181,8 +181,12 @@ public class Game extends Canvas implements Runnable {
 
         Graphics graphics = bs.getDrawGraphics();
         graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        for(Penguin peng: penguinList){
+            if(peng.isVisible()){
+                graphics.drawImage(peng.getImage(),peng.getX(),peng.getY(),16,16,null);
+            }
+        }
         graphics.dispose();
-        // TODO: draw penguins
         bs.show();
     }
 

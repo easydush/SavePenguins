@@ -6,6 +6,7 @@ import ru.kpfu.itis.game.gfx.Colours;
 import ru.kpfu.itis.game.gfx.Font;
 import ru.kpfu.itis.game.gfx.Screen;
 import ru.kpfu.itis.game.level.Level;
+import ru.kpfu.itis.game.network.GameServer;
 import ru.kpfu.itis.game.network.messages.Message02Move;
 
 import java.util.ArrayList;
@@ -18,19 +19,57 @@ public class Player extends Mob {
     protected boolean isSwimming = false;
     private int tickCount = 0;
     private String username;
+    public int takenPenguinsNum;
+    public int savedPenguinsNum;
+    public ArrayList<Penguin> takenPenguins;
 
 
     public Player(Level level, int x, int y, InputHandler input, String username) {
         super(level, "Player", x, y, 1);
         this.input = input;
         this.username = username;
+        this.takenPenguinsNum = 0;
+        this.savedPenguinsNum = 0;
     }
 
+    public void savePenguin(int x, int y, Penguin penguin){
+        if(x<64 && y <8){
+            penguin.beSaved(x,y, true);
+            takenPenguinsNum--;
+            savedPenguinsNum++;
+            takenPenguins.remove(penguin);
+        }
+    }
+    public void takePenguin(int x, int y){
+        Penguin penguin = findPenguin(x,y);
+        if(penguin!=null) {
+            System.out.println("found:" + penguin.hashCode());
+            if (!penguin.isTaken()) {
+                penguin.beTaken();
+                takenPenguinsNum++;
+                takenPenguins.add(penguin);
+            } else savePenguin(x, y, penguin);
+        }
+    }
+    public Penguin findPenguin(int x, int y) {
+        Penguin penguin = null;
+        for (Penguin pengui : Game.game.penguinList) {
+            if (Math.abs(pengui.getX() - x) < 32) {
+                if (Math.abs(pengui.getY() - y) < 32) {
+                    penguin = pengui;
+                }
+            }
+        }
+        return penguin;
+    }
 
     public void tick() {
         int xa = 0;
         int ya = 0;
         if (input != null) {
+            if(input.take_put.isPressed()){
+                takePenguin(this.x,this.y);
+            }
             if (input.up.isPressed()) {
                 ya--;
             }

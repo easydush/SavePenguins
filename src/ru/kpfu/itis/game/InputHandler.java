@@ -1,5 +1,8 @@
 package ru.kpfu.itis.game;
 
+import ru.kpfu.itis.game.entities.Player;
+import ru.kpfu.itis.game.network.GameServer;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

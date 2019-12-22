@@ -31,8 +31,7 @@ public class GameServer extends Thread {
     }
 
     public void run() {
-        Random random = new Random();
-        for (int i = 0; i < random.nextInt() % 10; i++) {
+        for (int i = 0; i < 10; i++) {
             try {
                 allPenguins.add(new Penguin());
             } catch (IOException e) {
@@ -87,7 +86,7 @@ public class GameServer extends Thread {
                 if (peng != null) {
                     PlayerMP curPlayer = connectedPlayers.get(getPlayerMPIndex(((Message03Take) message).getUsername()));
                     if (!peng.isTaken()) {
-                        curPlayer.takePenguin(curX, curY, peng);
+                        curPlayer.takePenguin(curX, curY);
                     }
                 }
 
@@ -110,8 +109,8 @@ public class GameServer extends Thread {
     public Penguin findPenguin(int x, int y) {
         Penguin penguin = null;
         for (Penguin pengui : allPenguins) {
-            if (Math.abs(pengui.getX() - x) < 2) {
-                if (Math.abs(pengui.getY() - y) < 2) {
+            if (Math.abs(pengui.getX() - x) < 4) {
+                if (Math.abs(pengui.getY() - y) < 4) {
                     penguin = pengui;
                 }
             }
