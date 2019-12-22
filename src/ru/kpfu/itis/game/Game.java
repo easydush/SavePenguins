@@ -22,8 +22,8 @@ public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L;
 
     private static final int WIDTH = 320;
-    private static final int HEIGHT = WIDTH / 12 * 9;
-    private static final int SCALE = 4;
+    private static final int HEIGHT = (WIDTH / 16) * 9;
+    private static final int SCALE = 2;
     static final String NAME = "Save penguins";
     static final Dimension DIMENSIONS = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
     public static Game game;
@@ -96,6 +96,7 @@ public class Game extends Canvas implements Runnable {
             socketClient = new GameClient(this, "localhost");
             socketClient.start();
             penguinList = socketServer.getAllPenguins();
+
         }
     }
 
@@ -181,6 +182,7 @@ public class Game extends Canvas implements Runnable {
 
         Graphics graphics = bs.getDrawGraphics();
         graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        System.out.println(player.x+";"+player.y);
         for(Penguin peng: penguinList){
             if(peng.isVisible()){
                 graphics.drawImage(peng.getImage(),peng.getX(),peng.getY(),16,16,null);

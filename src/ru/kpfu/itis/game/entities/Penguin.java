@@ -16,8 +16,8 @@ public class Penguin {
         this.image = ImageIO.read(Penguin.class.getResourceAsStream("/levels/penguin.png"));
         this.isTaken = false;
         Random random =new Random();
-        this.x = random.nextInt()%128+128;
-        this.y = random.nextInt()%128+128;
+        this.x = 16+Math.abs(random.nextInt(504-32));
+        this.y = 16+Math.abs(random.nextInt(504-32));
         this.isVisible = true;
     }
 

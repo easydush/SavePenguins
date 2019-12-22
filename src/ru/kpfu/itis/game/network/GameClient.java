@@ -1,11 +1,9 @@
 package ru.kpfu.itis.game.network;
 
 import ru.kpfu.itis.game.Game;
+import ru.kpfu.itis.game.entities.Penguin;
 import ru.kpfu.itis.game.entities.PlayerMP;
-import ru.kpfu.itis.game.network.messages.Message;
-import ru.kpfu.itis.game.network.messages.Message00Login;
-import ru.kpfu.itis.game.network.messages.Message01Disconnect;
-import ru.kpfu.itis.game.network.messages.Message02Move;
+import ru.kpfu.itis.game.network.messages.*;
 
 import java.io.IOException;
 import java.net.*;
@@ -42,26 +40,38 @@ public class GameClient extends Thread {
     }
 
     private void parseMessage(byte[] data, InetAddress address, int port) {
-        String message = new String(data).trim();
-        Message.MessageTypes type = Message.lookupMessage(message.substring(0, 2));
-        Message Message = null;
+        String messageS = new String(data).trim();
+        Message.MessageTypes type = Message.lookupMessage(messageS.substring(0, 2));
+        Message message = null;
         switch (type) {
             default:
             case INVALID:
                 break;
             case LOGIN:
-                Message = new Message00Login(data);
-                handleLogin((Message00Login) Message, address, port);
+                message = new Message00Login(data);
+                handleLogin((Message00Login) message, address, port);
                 break;
             case DISCONNECT:
-                Message = new Message01Disconnect(data);
+                message = new Message01Disconnect(data);
                 System.out.println("[" + address.getHostAddress() + ":" + port + "] "
-                        + ((Message01Disconnect) Message).getUsername() + " has left the world...");
-                game.level.removePlayerMP(((Message01Disconnect) Message).getUsername());
+                        + ((Message01Disconnect) message).getUsername() + " has left us.");
+                game.level.removePlayerMP(((Message01Disconnect) message).getUsername());
                 break;
             case MOVE:
-                Message = new Message02Move(data);
-                handleMove((Message02Move) Message);
+                message = new Message02Move(data);
+                handleMove((Message02Move) message);
+
+           /* case PUT:
+                message = new Message04Put(data);
+                System.out.println("["+address.getHostAddress()+":"+port+"]"+
+                        ((Message04Put) message).getUsername()+"has put the penguin");
+                game.player.takePenguin(((Message04Put) message).getX(),((Message04Put) message).getY());
+*/
+            case TAKE:
+                message = new Message03Take(data);
+                System.out.println("["+address.getHostAddress()+":"+port+"]"+
+                        ((Message03Take) message).getUsername()+"has taken the penguin");
+                game.player.takePenguin(((Message03Take) message).getX(),((Message03Take) message).getY());
         }
     }
 
@@ -78,7 +88,7 @@ public class GameClient extends Thread {
 
     private void handleLogin(Message00Login Message, InetAddress address, int port) {
         System.out.println("[" + address.getHostAddress() + ":" + port + "] " + Message.getUsername()
-                + " has joined the game...");
+                + " has joined the game.");
         PlayerMP player = new PlayerMP(game.level, Message.getX(), Message.getY(), Message.getUsername(), address, port);
         game.level.addEntity(player);
     }

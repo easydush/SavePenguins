@@ -22,8 +22,8 @@ public class Player extends Mob {
     private int tickCount = 0;
     private String username;
     public int takenPenguinsNum;
-    public int savedPenguinsNum;
-    public ArrayList<Penguin> takenPenguins;
+  /*  public int savedPenguinsNum;*/
+    //public ArrayList<Penguin> takenPenguins;
 
 
     public Player(Level level, int x, int y, InputHandler input, String username) {
@@ -31,10 +31,10 @@ public class Player extends Mob {
         this.input = input;
         this.username = username;
         this.takenPenguinsNum = 0;
-        this.savedPenguinsNum = 0;
+        /*this.savedPenguinsNum = 0;*/
     }
 
-    public void savePenguin(int x, int y, Penguin penguin){
+   /* public void savePenguin(int x, int y, Penguin penguin){
         if(x<64 && y <8){
             penguin.beSaved(x,y, true);
             takenPenguinsNum--;
@@ -44,7 +44,7 @@ public class Player extends Mob {
             message04Put.writeData(Game.game.socketClient);
 
         }
-    }
+    }*/
     public void takePenguin(int x, int y){
         Penguin penguin = findPenguin(x,y);
         if(penguin!=null) {
@@ -52,10 +52,10 @@ public class Player extends Mob {
             if (!penguin.isTaken()) {
                 penguin.beTaken();
                 takenPenguinsNum++;
-                takenPenguins.add(penguin);
                 Message03Take message03Take = new Message03Take(getUsername(),x,y,true);
                 message03Take.writeData(Game.game.socketClient);
-            } else savePenguin(x, y, penguin);
+                Game.game.penguinList.remove(penguin);
+            } /*else savePenguin(x, y, penguin);*/
         }
     }
     public Penguin findPenguin(int x, int y) {

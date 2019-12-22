@@ -12,7 +12,6 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class GameServer extends Thread {
 
@@ -38,9 +37,21 @@ public class GameServer extends Thread {
                 e.printStackTrace();
             }
         }
+        for(Penguin peng:allPenguins){
+            System.out.println(peng.getX()+";"+peng.getY());
+        }
         while (true) {
             byte[] data = new byte[1024];
             DatagramPacket message = new DatagramPacket(data, data.length);
+            if(allPenguins.size()<3) {
+                for (int k=0; k<3; k++) {
+                    try {
+                        allPenguins.add(new Penguin());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
             try {
                 socket.receive(message);
             } catch (IOException e) {
@@ -90,7 +101,7 @@ public class GameServer extends Thread {
                     }
                 }
 
-            case PUT:
+           /* case PUT:
                 message = new Message04Put(data);
                 int currentX = ((Message04Put) message).getX();
                 int currentY = ((Message04Put) message).getY();
@@ -102,7 +113,7 @@ public class GameServer extends Thread {
                         curPlayer.savePenguin(currentX, currentY, curpeng);
                         allPenguins.remove(curpeng);
                     }
-                }
+                }*/
         }
     }
 

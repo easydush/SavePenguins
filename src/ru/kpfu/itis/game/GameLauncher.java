@@ -7,7 +7,6 @@ import java.awt.*;
 public class GameLauncher extends Applet {
 
     private static Game game = new Game();
-    public static final boolean DEBUG = false;
 
     @Override
     public void init() {
@@ -16,7 +15,6 @@ public class GameLauncher extends Applet {
         setMaximumSize(Game.DIMENSIONS);
         setMinimumSize(Game.DIMENSIONS);
         setPreferredSize(Game.DIMENSIONS);
-        game.debug = DEBUG;
         game.isApplet = true;
     }
 
@@ -48,7 +46,6 @@ public class GameLauncher extends Applet {
         game.frame.setVisible(true);
 
         game.windowHandler = new WindowHandler(game);
-        game.debug = DEBUG;
 
         game.start();
     }
