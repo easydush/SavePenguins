@@ -12,7 +12,7 @@ public abstract class Entity {
         init(level);
     }
 
-    public final void init(Level level) {
+    public void init(Level level) {
         this.level = level;
     }
 

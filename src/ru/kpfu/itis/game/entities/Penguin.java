@@ -8,7 +8,7 @@ import java.util.Random;
 public class Penguin {
     private int x,y;
     private boolean isTaken;
-    private boolean isSaved;
+    //private boolean isSaved;
     private boolean isVisible;
     private BufferedImage image;
 
@@ -16,12 +16,12 @@ public class Penguin {
         this.image = ImageIO.read(Penguin.class.getResourceAsStream("/levels/penguin.png"));
         this.isTaken = false;
         Random random =new Random();
-        this.x = 16+Math.abs(random.nextInt(504-32));
-        this.y = 16+Math.abs(random.nextInt(504-32));
+        this.x = 32+Math.abs(random.nextInt(404-48));
+        this.y = 32+Math.abs(random.nextInt(404-48));
         this.isVisible = true;
     }
 
-    public void beSaved(int x, int y, boolean isTaken){
+  /*  public void beSaved(int x, int y, boolean isTaken){
         if(isTaken){
             setSaved(true);
             setX(x);
@@ -29,7 +29,7 @@ public class Penguin {
         }
 
     }
-
+*/
     public void beTaken(){
         if(!isTaken){
             setTaken(true);
@@ -47,13 +47,13 @@ public class Penguin {
         isTaken = taken;
     }
 
-    public boolean isSaved() {
+   /* public boolean isSaved() {
         return isSaved;
     }
 
     public void setSaved(boolean saved) {
         isSaved = saved;
-    }
+    }*/
 
     public int getX() {
         return x;
