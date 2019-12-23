@@ -41,7 +41,7 @@ public class GameLauncher extends Applet {
         game.frame.add(game, BorderLayout.CENTER);
         game.frame.pack();
 
-        game.frame.setResizable(false);
+        game.frame.setResizable(true);
         game.frame.setLocationRelativeTo(null);
         game.frame.setVisible(true);
 

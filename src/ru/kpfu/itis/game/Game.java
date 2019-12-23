@@ -15,6 +15,7 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Game extends Canvas implements Runnable {
@@ -88,7 +89,7 @@ public class Game extends Canvas implements Runnable {
         thread = new Thread(this, NAME + "_main");
         thread.start();
         if (!isApplet) {
-            if (JOptionPane.showConfirmDialog(this, "Do you want to run the server") == 0) {
+            if (JOptionPane.showConfirmDialog(this, "Do you want to start the game?") == 0) {
                 socketServer = new GameServer(this);
                 socketServer.start();
             }
@@ -150,6 +151,15 @@ public class Game extends Canvas implements Runnable {
                 lastTimer += 1000;
                 frames = 0;
                 ticks = 0;
+            }
+            if(penguinList.size()<3) {
+                for (int k=0; k<3; k++) {
+                    try {
+                        penguinList.add(new Penguin());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }

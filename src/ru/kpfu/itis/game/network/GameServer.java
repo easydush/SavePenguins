@@ -43,15 +43,6 @@ public class GameServer extends Thread {
         while (true) {
             byte[] data = new byte[1024];
             DatagramPacket message = new DatagramPacket(data, data.length);
-            if(allPenguins.size()<3) {
-                for (int k=0; k<3; k++) {
-                    try {
-                        allPenguins.add(new Penguin());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
             try {
                 socket.receive(message);
             } catch (IOException e) {
